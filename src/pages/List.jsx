@@ -17,22 +17,17 @@ const columns = [
 	columnHelper.accessor("firstName", {
 		cell: (info) => info.getValue(),
 		header: () => "First Name",
-		// footer: (info) => info.column.id,
 	}),
 	columnHelper.accessor("lastName", {
-		// id: "lastName",
 		cell: (info) => <i>{info.getValue()}</i>,
 		header: () => "Last Name",
-		// footer: (info) => info.column.id,
 	}),
 	columnHelper.accessor("StartDate", {
 		header: () => "Start Date",
 		cell: (info) => info.renderValue(),
-		// footer: (info) => info.column.id,
 	}),
 	columnHelper.accessor("department", {
 		header: () => <span>Department</span>,
-		// footer: (info) => info.column.id,
 	}),
 	columnHelper.accessor("dateOfBirth", {
 		header: "Date of Birth",
@@ -50,12 +45,9 @@ const columns = [
 		header: "Zip Code",
 	}),
 ];
-const List = () => {
-	const employees = JSON.parse(localStorage.getItem("employees"));
-	const [data, setData] = useState(employees ? employees : []);
+const List = ({ data }) => {
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [columnOrder, setColumnOrder] = useState([]);
-	// console.log(setData(data));
 	let table = useReactTable({
 		data,
 		columns,
