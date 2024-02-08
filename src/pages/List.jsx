@@ -56,7 +56,6 @@ const List = () => {
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [columnOrder, setColumnOrder] = useState([]);
 	// console.log(setData(data));
-	const rerender = React.useReducer(() => ({}), {})[1];
 	let table = useReactTable({
 		data,
 		columns,
