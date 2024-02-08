@@ -1,17 +1,134 @@
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { useReactTable } from "@tanstack/react-table";
+import {
+	useReactTable,
+	flexRender,
+	createColumnHelper,
+	getCoreRowModel,
+} from "@tanstack/react-table";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { faHome } from "@fortawesome/free-solid-svg-icons";
+import "../css/list.css";
+
+const columnHelper = createColumnHelper();
+
+const columns = [
+	columnHelper.accessor("firstName", {
+		cell: (info) => info.getValue(),
+		header: () => "First Name",
+		// footer: (info) => info.column.id,
+	}),
+	columnHelper.accessor("lastName", {
+		// id: "lastName",
+		cell: (info) => <i>{info.getValue()}</i>,
+		header: () => "Last Name",
+		// footer: (info) => info.column.id,
+	}),
+	columnHelper.accessor("StartDate", {
+		header: () => "Start Date",
+		cell: (info) => info.renderValue(),
+		// footer: (info) => info.column.id,
+	}),
+	columnHelper.accessor("department", {
+		header: () => <span>Department</span>,
+		// footer: (info) => info.column.id,
+	}),
+	columnHelper.accessor("dateOfBirth", {
+		header: "Date of Birth",
+	}),
+	columnHelper.accessor("street", {
+		header: "Street",
+	}),
+	columnHelper.accessor("city", {
+		header: "City",
+	}),
+	columnHelper.accessor("state", {
+		header: "State",
+	}),
+	columnHelper.accessor("zipCode", {
+		header: "Zip Code",
+	}),
+];
 const List = () => {
 	const employees = JSON.parse(localStorage.getItem("employees"));
-	console.log(employees);
-	const table = useReactTable(employees);
+	const [data, setData] = useState(employees ? employees : []);
+	const [columnVisibility, setColumnVisibility] = useState({});
+	const [columnOrder, setColumnOrder] = useState([]);
+	// console.log(setData(data));
+	const rerender = React.useReducer(() => ({}), {})[1];
+	let table = useReactTable({
+		data,
+		columns,
+		state: {
+			columnVisibility,
+			columnOrder,
+		},
+		onColumnVisibilityChange: setColumnVisibility,
+		onColumnOrderChange: setColumnOrder,
+		getCoreRowModel: getCoreRowModel(),
+		debugTable: true,
+		debugHeaders: true,
+		debugColumns: true,
+	});
+
 	return (
 		<div>
 			<div id="employee-div" className="container">
+				<div className="homepage-link">
+					<Link to={"/"}>
+						<FontAwesomeIcon
+							icon={faHome}
+							size="xl"
+							style={{ paddingTop: "2px" }}
+							color="green"
+						/>
+					</Link>
+				</div>
+
 				<h1>Current Employees</h1>
-				<table id="employee-table" className="display"></table>
-				<Link to={"/"}>Home</Link>
-				{table}
+				{data.length > 0 && (
+					<div>
+						<table className="list-table">
+							<thead>
+								{table.getHeaderGroups().map((headerGroup) => (
+									<tr key={headerGroup.id}>
+										{headerGroup.headers.map((header) => (
+											<th key={header.id}>
+												{header.isPlaceholder
+													? null
+													: flexRender(
+															header.column
+																.columnDef
+																.header,
+															header.getContext()
+													  )}
+											</th>
+										))}
+									</tr>
+								))}
+							</thead>
+							<tbody>
+								{table.getRowModel().rows.map((row) => (
+									<tr key={row.id}>
+										{row.getVisibleCells().map((cell) => (
+											<td key={cell.id}>
+												{flexRender(
+													cell.column.columnDef.cell,
+													cell.getContext()
+												)}
+											</td>
+										))}
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				)}
+
+				{data.length === 0 && (
+					<p>There is no employee yet. Let create new one! </p>
+				)}
 			</div>
 		</div>
 	);

@@ -1,16 +1,23 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import "../css/home.css";
 import { Modal } from "modal-component-oc";
+import DatePicker from "react-datepicker";
+import Select from "react-select";
+
+import "../css/home.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const Home = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
-	console.log(isModalOpen);
+
+	const [birthDate, setBirthDate] = useState(new Date());
+	const [startDate, setStartDate] = useState(new Date());
+	const [department, setDepartment] = useState(departmentArray[0]?.value);
+	const [state, setState] = useState(analysedStates[0]?.value);
+
 	const onCloseHandler = () => {
 		setIsModalOpen(false);
 	};
-
-	const options = states.map((c) => c.name + " - " + c.abbreviation);
 
 	const saveEmployee = (e) => {
 		e.preventDefault();
@@ -34,53 +41,128 @@ const Home = () => {
 
 	return (
 		<div>
-			<div className="title">
-				<h1>HRnet</h1>
+			<div className="header">
+				<div className="title">
+					<h1>HRnet</h1>
+				</div>
+				<div>
+					<Link to={"/list"}>Current Employees</Link>
+				</div>
 			</div>
-			<div className="container">
-				<Link to={"/list"}>View Current Employees</Link>
 
+			<div className="container">
 				<h2>Create Employee</h2>
-				<form action="#" id="create-employee" onSubmit={saveEmployee}>
-					<label htmlFor="first-name">First Name</label>
-					<input type="text" id="first-name" name="firstName" />
-					<label htmlFor="last-name">Last Name</label>
-					<input type="text" id="last-name" name="lastName" />
-					<label htmlFor="date-of-birth">Date of Birth</label>
-					<input id="date-of-birth" type="date" name="dateOfBirth" />
-					<label htmlFor="start-date">Start Date</label>
-					<input id="start-date" type="text" name="startDate" />
+				<form
+					action="#"
+					id="create-employee"
+					className="employee-form"
+					onSubmit={saveEmployee}
+				>
+					<div className="name-zone">
+						<div>
+							<label htmlFor="first-name">First Name</label>
+							<input
+								type="text"
+								id="first-name"
+								name="firstName"
+								required
+							/>
+						</div>
+						<div>
+							<label htmlFor="last-name">Last Name</label>
+							<input
+								type="text"
+								id="last-name"
+								name="lastName"
+								required
+							/>
+						</div>
+					</div>
+					<div className="date-zone">
+						<div>
+							<label htmlFor="date-of-birth">Date of Birth</label>
+							{/* <input id="date-of-birth" type="date" name="dateOfBirth" /> */}
+							<DatePicker
+								selected={birthDate}
+								onChange={(date) => setBirthDate(date)}
+								name="dateOfBirth"
+								id="date-of-birth"
+								required
+							/>
+						</div>
+						<div>
+							<label htmlFor="start-date">Start Date</label>
+							{/* <input id="start-date" type="text" name="startDate" /> */}
+							<DatePicker
+								selected={startDate}
+								onChange={(date) => setStartDate(date)}
+								name="startDate"
+								id="start-date"
+							/>
+						</div>
+					</div>
 
 					<fieldset className="address">
 						<legend>Address</legend>
 
 						<label htmlFor="street">Street</label>
-						<input id="street" type="text" name="streer" />
-
-						<label htmlFor="city">City</label>
-						<input id="city" type="text" name="city" />
+						<input id="street" type="text" name="street" required />
+						<div className="location-zone">
+							<div>
+								<label htmlFor="city">City</label>
+								<input
+									id="city"
+									type="text"
+									name="city"
+									required
+								/>
+							</div>
+							<div>
+								<label htmlFor="zip-code">Zip Code</label>
+								<input
+									id="zip-code"
+									type="number"
+									name="zipCode"
+									required
+								/>
+							</div>
+						</div>
 
 						<label htmlFor="state">State</label>
-						<select name="state" id="state" option={options}>
-							{options.map((option, ind) => (
-								<option key={ind}>{option}</option>
-							))}
-						</select>
-
-						<label htmlFor="zip-code">Zip Code</label>
-						<input id="zip-code" type="number" name="zipCode" />
+						<Select
+							value={state}
+							defaultValue={state}
+							name="state"
+							onChange={(e) => setState(e)}
+							options={analysedStates}
+							closeMenuOnScroll={true}
+							captureMenuScroll
+							maxMenuHeight={150}
+							menuShouldScrollIntoView
+							placeholder={state}
+							required
+						/>
 					</fieldset>
 
 					<label htmlFor="department">Department</label>
-					<select name="department" id="department">
-						<option>Sales</option>
-						<option>Marketing</option>
-						<option>Engineering</option>
-						<option>Human Resources</option>
-						<option>Legal</option>
-					</select>
+
+					<Select
+						value={department}
+						name="department"
+						onChange={(e) => setDepartment(e)}
+						options={departmentArray}
+						closeMenuOnScroll={true}
+						captureMenuScroll
+						maxMenuHeight={100}
+						menuShouldScrollIntoView
+						placeholder={department}
+						required
+					/>
+
 					<div>
-						<button type="submit">Save</button>
+						<button className="submit-form" type="submit">
+							Save
+						</button>
 					</div>
 				</form>
 			</div>
@@ -344,4 +426,19 @@ const states = [
 		name: "Wyoming",
 		abbreviation: "WY",
 	},
+];
+
+const analysedStates = states.map((state) => {
+	return {
+		value: state.name,
+		label: state.name + " - " + state.abbreviation,
+	};
+});
+
+const departmentArray = [
+	{ value: "Sales", label: "Sales" },
+	{ value: "Marketing", label: "Marketing" },
+	{ value: "Engineering", label: "Engineering" },
+	{ value: "Human Resources", label: "Human Resources" },
+	{ value: "Legal", label: "Legal" },
 ];
