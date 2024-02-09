@@ -23,22 +23,23 @@ const Home = ({ data, dataHandler }) => {
 
 	const saveEmployee = (e) => {
 		e.preventDefault();
-		const data = e.target;
+		const formData = e.target;
 		const employees = JSON.parse(localStorage.getItem("employees")) || [];
 
 		const employee = {
-			firstName: data.firstName.value,
-			lastName: data.lastName.value,
-			dateOfBirth: data.dateOfBirth.value,
-			startDate: data.startDate.value,
-			department: data.department.value,
-			street: data.street.value,
-			city: data.city.value,
-			state: data.state.value,
-			zipCode: data.zipCode.value,
+			firstName: formData.firstName.value,
+			lastName: formData.lastName.value,
+			dateOfBirth: formData.dateOfBirth.value,
+			startDate: formData.startDate.value,
+			department: formData.department.value,
+			street: formData.street.value,
+			city: formData.city.value,
+			state: formData.state.value,
+			zipCode: formData.zipCode.value,
 		};
+		console.log("employee", employee);
+		dataHandler(employee);
 
-		dataHandler([...data, employee]);
 		employees.push(employee);
 		localStorage.setItem("employees", JSON.stringify(employees));
 		setIsModalOpen(true);
@@ -176,18 +177,18 @@ const Home = ({ data, dataHandler }) => {
 				isOpen={isModalOpen}
 				onClose={onCloseHandler}
 				isCloseBtn={true}
-				// closeText={"Close"}
-				backgroundColor={"yellow"}
-				textColor={"blue"}
 			>
-				<p>Employee Created!</p>
-				<p onClick={onCloseHandler} className="close-text">
-					Close
-				</p>
+				<div>
+					<h3>Employee Created!</h3>
+					<p>
+						You can go to{" "}
+						<Link to={"/list"} className="link-text">
+							here
+						</Link>{" "}
+						to review list of employee list
+					</p>
+				</div>
 			</Modal>
-			{/* <button onClick={() => setIsModalOpen(!isModalOpen)}>
-				Open modal
-			</button> */}
 		</div>
 	);
 };

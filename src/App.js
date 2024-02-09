@@ -13,8 +13,10 @@ const App = () => {
 	const employees = JSON.parse(localStorage.getItem("employees"));
 
 	const [data, setData] = useState(employees ?? []);
+	console.log("data", data);
 	const dataHandler = (newData) => {
 		setData([...data, newData]);
+		console.log("saved data", data);
 	};
 	return (
 		<div className="App">
@@ -22,7 +24,12 @@ const App = () => {
 				<Routes>
 					<Route
 						path="/"
-						element={<Home data={data} dataHandler={dataHandler} />}
+						element={
+							<Home
+								data={data}
+								dataHandler={(e) => dataHandler(e)}
+							/>
+						}
 					></Route>
 					<Route path="/list" element={<List data={data} />}></Route>
 

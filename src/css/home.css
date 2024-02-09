@@ -94,3 +94,8 @@ fieldset.address legend {
 	border-radius: 5px;
 	color: white;
 }
+.link-text {
+	color: rgb(0, 46, 0);
+	text-decoration: none;
+	font-weight: 800;
+}

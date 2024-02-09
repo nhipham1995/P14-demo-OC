@@ -22,7 +22,7 @@ const columns = [
 		cell: (info) => <i>{info.getValue()}</i>,
 		header: () => "Last Name",
 	}),
-	columnHelper.accessor("StartDate", {
+	columnHelper.accessor("startDate", {
 		header: () => "Start Date",
 		cell: (info) => info.renderValue(),
 	}),
@@ -46,6 +46,7 @@ const columns = [
 	}),
 ];
 const List = ({ data }) => {
+	console.log(data);
 	const [columnVisibility, setColumnVisibility] = useState({});
 	const [columnOrder, setColumnOrder] = useState([]);
 	let table = useReactTable({
