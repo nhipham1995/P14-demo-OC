@@ -1,7 +1,7 @@
 .header {
 	display: flex;
 	justify-content: space-between;
-	max-width: 700px;
+	max-width: 900px;
 	margin: auto;
 	align-items: center;
 }
@@ -26,7 +26,7 @@ h2 {
 	justify-content: center;
 }
 .employee-form {
-	width: 500px;
+	width: 600px;
 }
 .name-zone,
 .date-zone,
@@ -47,13 +47,14 @@ h2 {
 	align-items: center;
 	justify-content: center;
 	padding: 10px;
+	margin-top: 20px;
 }
 
 label {
 	display: block;
-	margin-top: 1rem;
+	margin-top: 1.5rem;
 	margin-bottom: 2px;
-	font-size: 12px;
+	font-size: 14px;
 	color: rgb(142, 141, 141);
 	text-align: start;
 	padding-left: 1px;
@@ -63,7 +64,7 @@ input:required + label::after {
 	color: teal;
 }
 input {
-	height: 25px;
+	height: 35px;
 	width: -webkit-fill-available !important;
 	border: 0.8px solid lightgray;
 	border-radius: 3px;
@@ -77,7 +78,7 @@ fieldset.address legend {
 	padding-top: 30px;
 	font-weight: 600;
 	color: rgb(111, 111, 111);
-	margin: 0 !important;
+	margin: -1 !important;
 }
 .react-datepicker-wrapper {
 	width: -webkit-fill-available !important;

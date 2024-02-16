@@ -9,7 +9,7 @@ import { departmentArray } from "../datas/departments";
 import "../css/home.css";
 import "react-datepicker/dist/react-datepicker.css";
 
-const Home = ({ data, dataHandler }) => {
+const Home = ({ dataHandler }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const [birthDate, setBirthDate] = useState(new Date());
@@ -37,12 +37,12 @@ const Home = ({ data, dataHandler }) => {
 			state: formData.state.value,
 			zipCode: formData.zipCode.value,
 		};
-		console.log("employee", employee);
-		dataHandler(employee);
 
+		dataHandler(employee);
 		employees.push(employee);
 		localStorage.setItem("employees", JSON.stringify(employees));
 		setIsModalOpen(true);
+		e.target.reset();
 	};
 
 	return (
@@ -87,7 +87,6 @@ const Home = ({ data, dataHandler }) => {
 					<div className="date-zone">
 						<div>
 							<label htmlFor="date-of-birth">Date of Birth</label>
-							{/* <input id="date-of-birth" type="date" name="dateOfBirth" /> */}
 							<DatePicker
 								selected={birthDate}
 								onChange={(date) => setBirthDate(date)}
@@ -98,7 +97,6 @@ const Home = ({ data, dataHandler }) => {
 						</div>
 						<div>
 							<label htmlFor="start-date">Start Date</label>
-							{/* <input id="start-date" type="text" name="startDate" /> */}
 							<DatePicker
 								selected={startDate}
 								onChange={(date) => setStartDate(date)}
@@ -177,14 +175,16 @@ const Home = ({ data, dataHandler }) => {
 				isOpen={isModalOpen}
 				onClose={onCloseHandler}
 				isCloseBtn={true}
+				textColor="darkblue"
 			>
 				<div>
 					<h3>Employee Created!</h3>
 					<p>
-						You can go to{" "}
+						You can go to
 						<Link to={"/list"} className="link-text">
-							here
-						</Link>{" "}
+							{" "}
+							here{" "}
+						</Link>
 						to review list of employee list
 					</p>
 				</div>
