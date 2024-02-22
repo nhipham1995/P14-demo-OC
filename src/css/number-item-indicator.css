@@ -1,9 +1,9 @@
-.item-number-per-page {
+.number-per-page {
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 	margin-top: 20px;
 }
-.item-number-per-page select {
+.number-per-page select {
 	padding: 10px;
 	border-radius: 10px;
 	background-color: antiquewhite;
