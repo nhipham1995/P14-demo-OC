@@ -1,0 +1,30 @@
+.employee-form {
+	width: 600px;
+}
+.name-zone,
+.date-zone,
+.location-zone {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	gap: 20px;
+}
+.name-zone div,
+.date-zone div,
+.location-zone div {
+	flex: 1;
+}
+
+@media only screen and (max-width: 870px) {
+	.name-zone,
+	.date-zone,
+	.location-zone {
+		flex-direction: column;
+		gap: 0;
+	}
+}
+@media only screen and (max-width: 650px) {
+	.employee-form {
+		width: 300px;
+	}
+}

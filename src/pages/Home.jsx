@@ -1,48 +1,16 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "modal-component-oc";
-import DatePicker from "react-datepicker";
-import Select from "react-select";
-import { analysedStates } from "../datas/states";
-import { departmentArray } from "../datas/departments";
 
 import "../css/home.css";
 import "react-datepicker/dist/react-datepicker.css";
+import EmployeeForm from "../components/employee-create-form";
 
 const Home = ({ dataHandler }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const [birthDate, setBirthDate] = useState(new Date());
-	const [startDate, setStartDate] = useState(new Date());
-	const [department, setDepartment] = useState(departmentArray[0]?.value);
-	const [state, setState] = useState(analysedStates[0]?.value);
-
 	const onCloseHandler = () => {
 		setIsModalOpen(false);
-	};
-
-	const saveEmployee = (e) => {
-		e.preventDefault();
-		const formData = e.target;
-		const employees = JSON.parse(localStorage.getItem("employees")) || [];
-
-		const employee = {
-			firstName: formData.firstName.value,
-			lastName: formData.lastName.value,
-			dateOfBirth: formData.dateOfBirth.value,
-			startDate: formData.startDate.value,
-			department: formData.department.value,
-			street: formData.street.value,
-			city: formData.city.value,
-			state: formData.state.value,
-			zipCode: formData.zipCode.value,
-		};
-
-		dataHandler(employee);
-		employees.push(employee);
-		localStorage.setItem("employees", JSON.stringify(employees));
-		setIsModalOpen(true);
-		e.target.reset();
 	};
 
 	return (
@@ -58,31 +26,31 @@ const Home = ({ dataHandler }) => {
 
 			<div className="container">
 				<h2>Create Employee</h2>
-				<form
+				<EmployeeForm
+					dataHandler={dataHandler}
+					submit={() => setIsModalOpen(true)}
+				/>
+				{/* <form
 					action="#"
 					id="create-employee"
 					className="employee-form"
 					onSubmit={saveEmployee}
 				>
 					<div className="name-zone">
-						<div>
-							<label htmlFor="first-name">First Name</label>
-							<input
-								type="text"
-								id="first-name"
-								name="firstName"
-								required
-							/>
-						</div>
-						<div>
-							<label htmlFor="last-name">Last Name</label>
-							<input
-								type="text"
-								id="last-name"
-								name="lastName"
-								required
-							/>
-						</div>
+						<Input
+							name={"firstName"}
+							id={"first-name"}
+							label={"First Name"}
+							type={"text"}
+							isRequired={true}
+						/>
+						<Input
+							name={"lastName"}
+							id={"last-name"}
+							label={"Last Name"}
+							type={"text"}
+							isRequired={true}
+						/>
 					</div>
 					<div className="date-zone">
 						<div>
@@ -109,27 +77,28 @@ const Home = ({ dataHandler }) => {
 					<fieldset className="address">
 						<legend>Address</legend>
 
-						<label htmlFor="street">Street</label>
-						<input id="street" type="text" name="street" required />
+						<Input
+							name={"street"}
+							id={"street"}
+							label={"Street"}
+							type={"text"}
+							isRequired={true}
+						/>
 						<div className="location-zone">
-							<div>
-								<label htmlFor="city">City</label>
-								<input
-									id="city"
-									type="text"
-									name="city"
-									required
-								/>
-							</div>
-							<div>
-								<label htmlFor="zip-code">Zip Code</label>
-								<input
-									id="zip-code"
-									type="number"
-									name="zipCode"
-									required
-								/>
-							</div>
+							<Input
+								name={"city"}
+								id={"city"}
+								label={"City"}
+								type={"text"}
+								isRequired={true}
+							/>
+							<Input
+								name={"zipCode"}
+								id={"zip-code"}
+								label={"Zip Code"}
+								type={"number"}
+								isRequired={true}
+							/>
 						</div>
 
 						<label htmlFor="state">State</label>
@@ -168,7 +137,7 @@ const Home = ({ dataHandler }) => {
 							Save
 						</button>
 					</div>
-				</form>
+				</form> */}
 			</div>
 
 			<Modal

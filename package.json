@@ -43,10 +43,10 @@
 		]
 	},
 	"author": "Nhi PHAM",
-	"description": "A modern modal component for React",
+	"description": "A project HRNet that is convert from jQuerry to React, using package npm",
 	"keywords": [
-		"modal",
 		"react",
-		"component"
+		"HRNet",
+		"application"
 	]
 }

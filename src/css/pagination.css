@@ -1,0 +1,22 @@
+button.pagination {
+	padding: 5px;
+	width: 35px;
+	margin-left: 3px;
+	border-radius: 5px;
+	background-color: rgb(222, 221, 221);
+	border: 1px solid rgb(222, 221, 221);
+}
+button.pagination:enabled {
+	background-color: blanchedalmond;
+	border: 1px solid blanchedalmond;
+	border-radius: 5px;
+}
+button.pagination:enabled:hover {
+	background-color: rgb(245, 192, 112);
+	border: 1px solid rgb(245, 192, 112);
+	cursor: pointer;
+}
+.page-info {
+	margin-top: 10px;
+	color: rgb(176, 119, 33);
+}

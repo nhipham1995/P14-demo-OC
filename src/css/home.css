@@ -25,22 +25,7 @@ h2 {
 	align-items: center;
 	justify-content: center;
 }
-.employee-form {
-	width: 600px;
-}
-.name-zone,
-.date-zone,
-.location-zone {
-	display: flex;
-	justify-content: space-between;
-	margin-bottom: 10px;
-	gap: 20px;
-}
-.name-zone div,
-.date-zone div,
-.location-zone div {
-	flex: 1;
-}
+
 .container {
 	display: flex;
 	flex-direction: column;

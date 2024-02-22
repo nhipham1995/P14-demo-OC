@@ -2,6 +2,9 @@ html {
 	font-family: sans-serif;
 	font-size: 14px;
 }
+.employee-div {
+	width: 870px;
+}
 .homepage-link {
 	width: 870px;
 	display: flex;
@@ -12,6 +15,11 @@ html {
 .container h1 {
 	margin: 20px;
 	font-size: x-large;
+}
+.table-controller {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 20px;
 }
 table {
 	border: 1px solid lightgray;
@@ -32,7 +40,7 @@ th {
 	border-bottom: 1px solid lightgray;
 	border-right: 1px solid lightgray;
 	padding: 12px 6px;
-	background-color: rgb(223, 252, 234);
+	background-color: rgb(210, 136, 32);
 }
 th:last-of-type {
 	border-right: 0;
@@ -79,34 +87,36 @@ p.list-info-text {
 	margin-bottom: 35px;
 	margin-top: 6px;
 }
-button.pagination {
-	padding: 5px;
-	width: 35px;
-	margin-left: 3px;
-	border-radius: 5px;
-	background-color: rgb(222, 221, 221);
-	border: 1px solid rgb(222, 221, 221);
-}
-button.pagination:enabled {
-	background-color: blanchedalmond;
-	border: 1px solid blanchedalmond;
-	border-radius: 5px;
-}
-button.pagination:enabled:hover {
-	background-color: rgb(245, 192, 112);
-	border: 1px solid rgb(245, 192, 112);
+.sort-column {
 	cursor: pointer;
 }
-.page-info {
-	margin-top: 10px;
-	color: rgb(176, 119, 33);
-}
-.item-number-per-page {
-	padding: 10px;
-}
-.item-number-per-page select {
-	padding: 10px;
-	border-radius: 10px;
-	background-color: antiquewhite;
-	border: 1px solid antiquewhite;
+/* .table-wrapper {
+	width: 100vw;
+} */
+@media only screen and (max-width: 1200px) {
+	.container {
+		padding: 0;
+	}
+	.homepage-link {
+		width: 90vw;
+	}
+	.employee-div,
+	.table-container {
+		width: 90vw;
+	}
+	.table-controller {
+		display: flex;
+		flex-direction: column;
+		gap: 20px;
+		width: 100vw;
+	}
+	.table-wrapper {
+		width: 100vw;
+		overflow-x: scroll;
+	}
+	.result-list {
+		display: flex;
+		justify-self: end;
+		width: 90vw;
+	}
 }

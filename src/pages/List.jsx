@@ -15,6 +15,8 @@ import {
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
+import Pagination from "../components/pagination";
+import NumberIndicator from "../components/number-item-indicator";
 
 import "../css/list.css";
 
@@ -68,26 +70,29 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 
 const List = ({ data }) => {
 	const [globalFilter, setGlobalFilter] = useState("");
+	const [sorting, setSorting] = React.useState([]);
+
 	let table = useReactTable({
 		data,
 		columns,
 		state: {
 			globalFilter,
+			sorting,
 		},
-
 		getFilteredRowModel: getFilteredRowModel(),
 		getSortedRowModel: getSortedRowModel(),
+		onSortingChange: setSorting,
+		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getFacetedRowModel: getFacetedRowModel(),
 		getFacetedUniqueValues: getFacetedUniqueValues(),
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
-		getCoreRowModel: getCoreRowModel(),
 		globalFilterFn: fuzzyFilter,
 		debugTable: true,
 		debugHeaders: true,
 		debugColumns: true,
 	});
-	console.log(table._getSortedRowModel);
+
 	return (
 		<div>
 			<div id="employee-div" className="container">
@@ -106,16 +111,29 @@ const List = ({ data }) => {
 				{data.length > 0 && (
 					<div>
 						<div className="table-container">
-							<div>
-								<input
-									value={globalFilter ?? ""}
-									onChange={(e) => {
-										setGlobalFilter(e.target.value);
+							<div className="table-controller">
+								<NumberIndicator
+									pageSize={
+										table.getState().pagination.pageSize
+									}
+									onPageSizeChange={(e) => {
+										table.setPageSize(
+											Number(e.target.value)
+										);
 									}}
-									className="result-list"
-									placeholder="Search all columns..."
 								/>
+								<div>
+									<input
+										value={globalFilter ?? ""}
+										onChange={(e) => {
+											setGlobalFilter(e.target.value);
+										}}
+										className="result-list"
+										placeholder="Search all columns..."
+									/>
+								</div>
 							</div>
+
 							<p className="list-info-text">
 								There is{" "}
 								{table.getPrePaginationRowModel().rows.length >
@@ -128,48 +146,74 @@ const List = ({ data }) => {
 												.length + " result."
 									: "no result."}
 							</p>
-							<table className="list-table">
-								<thead>
-									{table
-										.getHeaderGroups()
-										.map((headerGroup) => (
-											<tr key={headerGroup.id}>
-												{headerGroup.headers.map(
-													(header) => (
-														<th key={header.id}>
-															{header.isPlaceholder
-																? null
-																: flexRender(
-																		header
-																			.column
-																			.columnDef
-																			.header,
-																		header.getContext()
-																  )}
-														</th>
-													)
-												)}
+							<div className="table-wrapper">
+								<table className="list-table">
+									<thead>
+										{table
+											.getHeaderGroups()
+											.map((headerGroup) => (
+												<tr key={headerGroup.id}>
+													{headerGroup.headers.map(
+														(header) => (
+															<th
+																key={header.id}
+																colSpan={
+																	header.colSpan
+																}
+															>
+																{header.isPlaceholder ? null : (
+																	<div
+																		{...{
+																			className:
+																				header.column.getCanSort()
+																					? "sort-column"
+																					: "",
+																			onClick:
+																				header.column.getToggleSortingHandler(),
+																		}}
+																	>
+																		{flexRender(
+																			header
+																				.column
+																				.columnDef
+																				.header,
+																			header.getContext()
+																		)}
+																		{{
+																			asc: " 🔼",
+																			desc: " 🔽",
+																		}[
+																			header.column.getIsSorted()
+																		] ??
+																			null}
+																	</div>
+																)}
+															</th>
+														)
+													)}
+												</tr>
+											))}
+									</thead>
+									<tbody>
+										{table.getRowModel().rows.map((row) => (
+											<tr key={row.id}>
+												{row
+													.getVisibleCells()
+													.map((cell) => (
+														<td key={cell.id}>
+															{flexRender(
+																cell.column
+																	.columnDef
+																	.cell,
+																cell.getContext()
+															)}
+														</td>
+													))}
 											</tr>
 										))}
-								</thead>
-								<tbody>
-									{table.getRowModel().rows.map((row) => (
-										<tr key={row.id}>
-											{row
-												.getVisibleCells()
-												.map((cell) => (
-													<td key={cell.id}>
-														{flexRender(
-															cell.column
-																.columnDef.cell,
-															cell.getContext()
-														)}
-													</td>
-												))}
-										</tr>
-									))}
-								</tbody>
-							</table>
+									</tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				)}
@@ -178,56 +222,17 @@ const List = ({ data }) => {
 					<p>There is no employee yet. Let create new one! </p>
 				)}
 			</div>
-			<div className="flex items-center gap-2">
-				<button
-					className="pagination"
-					onClick={() => table.setPageIndex(0)}
-					disabled={!table.getCanPreviousPage()}
-				>
-					{"<<"}
-				</button>
-				<button
-					className="pagination"
-					onClick={() => table.previousPage()}
-					disabled={!table.getCanPreviousPage()}
-				>
-					{"<"}
-				</button>
-				<button
-					className="pagination"
-					onClick={() => table.nextPage()}
-					disabled={!table.getCanNextPage()}
-				>
-					{">"}
-				</button>
-				<button
-					className="pagination"
-					onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-					disabled={!table.getCanNextPage()}
-				>
-					{">>"}
-				</button>
-				<div className="page-info">
-					<strong>
-						{table.getState().pagination.pageIndex + 1} of{" "}
-						{table.getPageCount()}
-					</strong>
-				</div>
-				<div className="item-number-per-page">
-					<select
-						value={table.getState().pagination.pageSize}
-						onChange={(e) => {
-							table.setPageSize(Number(e.target.value));
-						}}
-					>
-						{[3, 5, 6, 8, 10, 12, 20, 50].map((pageSize) => (
-							<option key={pageSize} value={pageSize}>
-								Show {pageSize} items per page
-							</option>
-						))}
-					</select>
-				</div>
-			</div>
+
+			<Pagination
+				firstPage={() => table.setPageIndex(0)}
+				prevPage={() => table.previousPage()}
+				canPrevPage={!table.getCanPreviousPage()}
+				lastPage={() => table.setPageIndex(table.getPageCount() - 1)}
+				nextPage={() => table.nextPage()}
+				canNextPage={!table.getCanNextPage()}
+				currentPage={table.getState().pagination.pageIndex + 1}
+				totalPage={table.getPageCount()}
+			/>
 		</div>
 	);
 };
