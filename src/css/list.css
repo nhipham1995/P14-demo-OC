@@ -90,9 +90,7 @@ p.list-info-text {
 .sort-column {
 	cursor: pointer;
 }
-/* .table-wrapper {
-	width: 100vw;
-} */
+
 @media only screen and (max-width: 1200px) {
 	.container {
 		padding: 0;
