@@ -6,8 +6,12 @@ import { analysedStates } from "../datas/states";
 import { departmentArray } from "../datas/departments";
 
 import "../css/employee-create-form.css";
+import { useDispatch } from "react-redux";
+import { addEmployee } from "../store";
 
-const EmployeeForm = ({ dataHandler, submit }) => {
+const EmployeeForm = ({ submit }) => {
+	const dispatch = useDispatch();
+
 	const [birthDate, setBirthDate] = useState(new Date());
 	const [startDate, setStartDate] = useState(new Date());
 	const [department, setDepartment] = useState(departmentArray[0]?.value);
@@ -29,8 +33,9 @@ const EmployeeForm = ({ dataHandler, submit }) => {
 			state: formData.state.value,
 			zipCode: formData.zipCode.value,
 		};
+
 		submit();
-		dataHandler(employee);
+		dispatch(addEmployee(employee));
 		employees.push(employee);
 		localStorage.setItem("employees", JSON.stringify(employees));
 		e.target.reset();
@@ -83,7 +88,6 @@ const EmployeeForm = ({ dataHandler, submit }) => {
 
 			<fieldset className="address">
 				<legend>Address</legend>
-
 				<Input
 					name={"street"}
 					id={"street"}
@@ -108,11 +112,13 @@ const EmployeeForm = ({ dataHandler, submit }) => {
 					/>
 				</div>
 
-				<label htmlFor="state">State</label>
+				{/* <label htmlFor="state">State</label> */}
+				<p className="label-like">State</p>
 				<Select
 					value={state}
 					defaultValue={state}
 					name="state"
+					id="state"
 					onChange={(e) => setState(e)}
 					options={analysedStates}
 					closeMenuOnScroll={true}
@@ -121,14 +127,17 @@ const EmployeeForm = ({ dataHandler, submit }) => {
 					menuShouldScrollIntoView
 					placeholder={state}
 					required
+					label="state"
 				/>
 			</fieldset>
 
-			<label htmlFor="department">Department</label>
-
+			{/* <label htmlFor="department">Department</label> */}
+			<p className="label-like">Department</p>
 			<Select
 				value={department}
 				name="department"
+				id="department"
+				label="department"
 				onChange={(e) => setDepartment(e)}
 				options={departmentArray}
 				closeMenuOnScroll={true}

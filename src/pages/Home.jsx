@@ -6,7 +6,7 @@ import "../css/home.css";
 import "react-datepicker/dist/react-datepicker.css";
 import EmployeeForm from "../components/employee-create-form";
 
-const Home = ({ dataHandler }) => {
+const Home = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	const onCloseHandler = () => {
@@ -26,10 +26,7 @@ const Home = ({ dataHandler }) => {
 
 			<div className="container">
 				<h2>Create Employee</h2>
-				<EmployeeForm
-					dataHandler={dataHandler}
-					submit={() => setIsModalOpen(true)}
-				/>
+				<EmployeeForm submit={() => setIsModalOpen(true)} />
 			</div>
 
 			<Modal

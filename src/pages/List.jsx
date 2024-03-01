@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useMemo, useState, lazy } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
 	useReactTable,
@@ -7,53 +8,19 @@ import {
 	getPaginationRowModel,
 	getCoreRowModel,
 	getFilteredRowModel,
-	getFacetedMinMaxValues,
-	getFacetedRowModel,
-	getFacetedUniqueValues,
 	getSortedRowModel,
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "../components/pagination";
-import NumberIndicator from "../components/number-item-indicator";
 
 import "../css/list.css";
 
+const Pagination = lazy(() => import("../components/pagination.jsx"));
+const NumberIndicator = lazy(() =>
+	import("../components/number-item-indicator.jsx")
+);
 const columnHelper = createColumnHelper();
-
-const columns = [
-	columnHelper.accessor("firstName", {
-		cell: (info) => info.getValue(),
-		header: () => "First Name",
-	}),
-	columnHelper.accessor("lastName", {
-		cell: (info) => <i>{info.getValue()}</i>,
-		header: () => "Last Name",
-	}),
-	columnHelper.accessor("startDate", {
-		header: () => "Start Date",
-		cell: (info) => info.renderValue(),
-	}),
-	columnHelper.accessor("department", {
-		header: () => <span>Department</span>,
-	}),
-	columnHelper.accessor("dateOfBirth", {
-		header: "Date of Birth",
-	}),
-	columnHelper.accessor("street", {
-		header: "Street",
-	}),
-	columnHelper.accessor("city", {
-		header: "City",
-	}),
-	columnHelper.accessor("state", {
-		header: "State",
-	}),
-	columnHelper.accessor("zipCode", {
-		header: "Zip Code",
-	}),
-];
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
 	// Rank the item
@@ -68,9 +35,48 @@ const fuzzyFilter = (row, columnId, value, addMeta) => {
 	return itemRank.passed;
 };
 
-const List = ({ data }) => {
+const List = () => {
+	const employees = useSelector((state) => state.employee);
+	const data = useMemo(() => employees, [employees]);
+
 	const [globalFilter, setGlobalFilter] = useState("");
 	const [sorting, setSorting] = React.useState([]);
+
+	const columns = useMemo(
+		() => [
+			columnHelper.accessor("firstName", {
+				cell: (info) => info.getValue(),
+				header: () => "First Name",
+			}),
+			columnHelper.accessor("lastName", {
+				cell: (info) => <i>{info.getValue()}</i>,
+				header: () => "Last Name",
+			}),
+			columnHelper.accessor("startDate", {
+				header: () => "Start Date",
+				cell: (info) => info.renderValue(),
+			}),
+			columnHelper.accessor("department", {
+				header: () => <span>Department</span>,
+			}),
+			columnHelper.accessor("dateOfBirth", {
+				header: "Date of Birth",
+			}),
+			columnHelper.accessor("street", {
+				header: "Street",
+			}),
+			columnHelper.accessor("city", {
+				header: "City",
+			}),
+			columnHelper.accessor("state", {
+				header: "State",
+			}),
+			columnHelper.accessor("zipCode", {
+				header: "Zip Code",
+			}),
+		],
+		[]
+	);
 
 	let table = useReactTable({
 		data,
@@ -84,15 +90,11 @@ const List = ({ data }) => {
 		onSortingChange: setSorting,
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
-		getFacetedRowModel: getFacetedRowModel(),
-		getFacetedUniqueValues: getFacetedUniqueValues(),
-		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		globalFilterFn: fuzzyFilter,
 		debugTable: true,
 		debugHeaders: true,
 		debugColumns: true,
 	});
-
 	return (
 		<div>
 			<div id="employee-div" className="container">
@@ -223,16 +225,20 @@ const List = ({ data }) => {
 				)}
 			</div>
 
-			<Pagination
-				firstPage={() => table.setPageIndex(0)}
-				prevPage={() => table.previousPage()}
-				canPrevPage={!table.getCanPreviousPage()}
-				lastPage={() => table.setPageIndex(table.getPageCount() - 1)}
-				nextPage={() => table.nextPage()}
-				canNextPage={!table.getCanNextPage()}
-				currentPage={table.getState().pagination.pageIndex + 1}
-				totalPage={table.getPageCount()}
-			/>
+			{data.length > 0 && (
+				<Pagination
+					firstPage={() => table.setPageIndex(0)}
+					prevPage={() => table.previousPage()}
+					canPrevPage={!table.getCanPreviousPage()}
+					lastPage={() =>
+						table.setPageIndex(table.getPageCount() - 1)
+					}
+					nextPage={() => table.nextPage()}
+					canNextPage={!table.getCanNextPage()}
+					currentPage={table.getState().pagination.pageIndex + 1}
+					totalPage={table.getPageCount()}
+				/>
+			)}
 		</div>
 	);
 };
