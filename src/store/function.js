@@ -1,8 +1,13 @@
 //convert object to string and store in localStorage
 export const saveToLocalStorage = (state) => {
 	try {
-		const oldData = localStorage.getItem("employees");
-		localStorage.setItem("employees", [...oldData, JSON.stringify(state)]);
+		// const oldData = localStorage.getItem("employees");
+		// const newData =
+		// oldData
+		// 	? [JSON.stringify(state.employee)]
+		// 	: [JSON.stringify(state.employee)];
+		const newData = [JSON.stringify(state.employee)];
+		localStorage.setItem("employees", newData);
 	} catch (e) {
 		console.warn(e);
 	}

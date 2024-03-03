@@ -20,7 +20,7 @@ const EmployeeForm = ({ submit }) => {
 	const saveEmployee = (e) => {
 		e.preventDefault();
 		const formData = e.target;
-		const employees = JSON.parse(localStorage.getItem("employees")) || [];
+		// const employees = JSON.parse(localStorage.getItem("employees")) || [];
 
 		const employee = {
 			firstName: formData.firstName.value,

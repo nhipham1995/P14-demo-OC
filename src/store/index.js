@@ -6,9 +6,8 @@ const employeeSlice = createSlice({
 	initialState: loadFromLocalStorage() || [],
 	reducers: {
 		// add a new employee into store "employee"
+
 		addEmployee(state, action) {
-			console.log("state", state);
-			console.log("action", action);
 			state.push(action.payload);
 		},
 	},
