@@ -11,8 +11,8 @@ import {
 	getSortedRowModel,
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/list.css";
 
@@ -20,6 +20,7 @@ const Pagination = lazy(() => import("../components/pagination.jsx"));
 const NumberIndicator = lazy(() =>
 	import("../components/number-item-indicator.jsx")
 );
+
 const columnHelper = createColumnHelper();
 
 const fuzzyFilter = (row, columnId, value, addMeta) => {
@@ -100,12 +101,13 @@ const List = () => {
 			<div id="employee-div" className="container">
 				<div className="homepage-link">
 					<Link to={"/"}>
-						<FontAwesomeIcon
+						{/* <FontAwesomeIcon
 							icon={faHome}
 							size="xl"
 							style={{ paddingTop: "2px" }}
 							color="green"
-						/>
+						/> */}
+						<p>Home</p>
 					</Link>
 				</div>
 

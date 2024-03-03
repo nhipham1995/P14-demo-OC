@@ -2,9 +2,10 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "modal-component-oc";
 
-import "../css/home.css";
-import "react-datepicker/dist/react-datepicker.css";
 import EmployeeForm from "../components/employee-create-form";
+
+import "react-datepicker/dist/react-datepicker.css";
+import "../css/home.css";
 
 const Home = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false);
