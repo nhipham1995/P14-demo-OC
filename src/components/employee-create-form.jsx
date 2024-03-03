@@ -4,10 +4,10 @@ import DatePicker from "react-datepicker";
 import Select from "react-select";
 import { analysedStates } from "../datas/states";
 import { departmentArray } from "../datas/departments";
-
-import "../css/employee-create-form.css";
 import { useDispatch } from "react-redux";
 import { addEmployee } from "../store";
+
+import "../css/employee-create-form.css";
 
 const EmployeeForm = ({ submit }) => {
 	const dispatch = useDispatch();
@@ -36,8 +36,8 @@ const EmployeeForm = ({ submit }) => {
 
 		submit();
 		dispatch(addEmployee(employee));
-		employees.push(employee);
-		localStorage.setItem("employees", JSON.stringify(employees));
+		// employees.push(employee);
+		// localStorage.setItem("employees", JSON.stringify(employees));
 		e.target.reset();
 	};
 

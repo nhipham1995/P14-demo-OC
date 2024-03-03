@@ -132,6 +132,7 @@ const List = () => {
 										onChange={(e) => {
 											setGlobalFilter(e.target.value);
 										}}
+										name="Keyword for searching employee"
 										className="result-list"
 										placeholder="Search all columns..."
 									/>
