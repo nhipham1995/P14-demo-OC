@@ -11,8 +11,6 @@ import {
 	getSortedRowModel,
 } from "@tanstack/react-table";
 import { rankItem } from "@tanstack/match-sorter-utils";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 import "../css/list.css";
 
@@ -101,12 +99,6 @@ const List = () => {
 			<div id="employee-div" className="container">
 				<div className="homepage-link">
 					<Link to={"/"}>
-						{/* <FontAwesomeIcon
-							icon={faHome}
-							size="xl"
-							style={{ paddingTop: "2px" }}
-							color="green"
-						/> */}
 						<p>Home</p>
 					</Link>
 				</div>
