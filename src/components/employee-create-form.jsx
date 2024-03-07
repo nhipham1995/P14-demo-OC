@@ -20,7 +20,6 @@ const EmployeeForm = ({ submit }) => {
 	const saveEmployee = (e) => {
 		e.preventDefault();
 		const formData = e.target;
-		// const employees = JSON.parse(localStorage.getItem("employees")) || [];
 
 		const employee = {
 			firstName: formData.firstName.value,
@@ -36,8 +35,7 @@ const EmployeeForm = ({ submit }) => {
 
 		submit();
 		dispatch(addEmployee(employee));
-		// employees.push(employee);
-		// localStorage.setItem("employees", JSON.stringify(employees));
+
 		e.target.reset();
 	};
 
@@ -112,7 +110,6 @@ const EmployeeForm = ({ submit }) => {
 					/>
 				</div>
 
-				{/* <label htmlFor="state">State</label> */}
 				<p className="label-like">State</p>
 				<Select
 					value={state}
@@ -131,7 +128,6 @@ const EmployeeForm = ({ submit }) => {
 				/>
 			</fieldset>
 
-			{/* <label htmlFor="department">Department</label> */}
 			<p className="label-like">Department</p>
 			<Select
 				value={department}

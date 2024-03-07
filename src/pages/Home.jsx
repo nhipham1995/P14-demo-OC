@@ -34,7 +34,7 @@ const Home = () => {
 				isOpen={isModalOpen}
 				onClose={onCloseHandler}
 				isCloseBtn={true}
-				textColor="darkblue"
+				textColor="blue"
 			>
 				<div>
 					<h3>Employee Created!</h3>
